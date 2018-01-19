@@ -8,5 +8,8 @@ arraylist-cpp:
 arraylist-go:
 	cd DataStruct/ArrayList/go && go test
 
+linkedlist-go:
+	cd DataStruct/LinkedList/go && go test
+
 clean:
 	rm build/*
