@@ -1,5 +1,5 @@
 // Copyright 2018 Itamar Ostricher
-// arraylist package providing on ArrayList data structure (AKA vector)
+// arraylist package providing an ArrayList data structure (AKA vector)
 // for educational purposes (as builtin slices are more than sufficient)
 
 package arraylist
