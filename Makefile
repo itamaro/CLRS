@@ -6,10 +6,10 @@ arraylist-cpp:
 	./build/arraylist-demo
 
 arraylist-go:
-	cd DataStruct/ArrayList/go && go test
+	cd DataStruct/ArrayList/go && go test -cover
 
 linkedlist-go:
-	cd DataStruct/LinkedList/go && go test
+	cd DataStruct/LinkedList/go && go test -cover
 
 clean:
 	rm build/*
