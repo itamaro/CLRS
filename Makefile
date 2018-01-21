@@ -11,5 +11,8 @@ arraylist-go:
 linkedlist-go:
 	cd DataStruct/LinkedList/go && go test -cover
 
+hashmap-go:
+	cd DataStruct/HashMap/go && go test -cover
+
 clean:
 	rm build/*
