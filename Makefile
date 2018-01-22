@@ -11,6 +11,9 @@ arraylist-go:
 linkedlist-go:
 	cd DataStruct/LinkedList/go && go test -cover
 
+reverse-linkedlist:
+	cd Algorithms/ReverseLinkedList/go && go run reverse.go && go test
+
 hashmap-go:
 	cd DataStruct/HashMap/go && go test -cover
 
