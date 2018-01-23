@@ -105,3 +105,61 @@ func TestLinkedList(t* testing.T) {
     t.Errorf("Expected list as slice to be fourth-sixth, got %v", l.AsSlice())
   }
 }
+
+func TestSLinkedList(t *testing.T) {
+  var l SLinkedList
+  if l.Len != 0 {
+    t.Errorf("Expected new list length to be 0, got %d", l.Len)
+  }
+  if l.Head != nil {
+    t.Errorf("Expected new list to have nil Head")
+  }
+  n1 := l.Insert("first")
+  n2 := l.Insert("second")
+  if l.Len != 2 {
+    t.Errorf("Expected list length to be 2, got %d", l.Len)
+  }
+  if n1.Value != "first" {
+    t.Errorf("Expected added item to have value 'first', got %v", n1.Value)
+  }
+  if n2.Value != "second" {
+    t.Errorf("Expected added item to have value 'second', got %v", n2.Value)
+  }
+  if l.Head != n2 || n2.Next != n1 || n1.Next != nil {
+    t.Errorf("List structure could not be verified")
+  }
+  n3 := l.InsertAfter(n1, "third")
+  l.InsertAfter(n2, "fourth")
+  if l.Len != 4 {
+    t.Errorf("Expected list length to be 4, got %d", l.Len)
+  }
+  if !reflect.DeepEqual(l.AsSlice(), []ItemType{"second", "fourth", "first", "third"}) {
+    t.Errorf("Expected list as slice to be second-fourth-first-third, got %v", l.AsSlice())
+  }
+  // remove from middle
+  if l.Remove(n1) != "first" {
+    t.Errorf("Expected Remove to return the value of the removed node")
+  }
+  if l.Len != 3 {
+    t.Errorf("Expected list length to be 3, got %d", l.Len)
+  }
+  if !reflect.DeepEqual(l.AsSlice(), []ItemType{"second", "fourth", "third"}) {
+    t.Errorf("Expected list as slice to be second-fourth-third, got %v", l.AsSlice())
+  }
+  // remove from end
+  l.Remove(n3)
+  if l.Len != 2 {
+    t.Errorf("Expected list length to be 2, got %d", l.Len)
+  }
+  if !reflect.DeepEqual(l.AsSlice(), []ItemType{"second", "fourth"}) {
+    t.Errorf("Expected list as slice to be second-fourth, got %v", l.AsSlice())
+  }
+  // remove from head
+  l.Remove(n2)
+  if l.Len != 1 {
+    t.Errorf("Expected list length to be 1, got %d", l.Len)
+  }
+  if !reflect.DeepEqual(l.AsSlice(), []ItemType{"fourth"}) {
+    t.Errorf("Expected list as slice to be fourth, got %v", l.AsSlice())
+  }
+}
