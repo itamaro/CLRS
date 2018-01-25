@@ -17,5 +17,8 @@ reverse-linkedlist:
 hashmap-go:
 	cd DataStruct/HashMap/go && go test -cover
 
+stack-go:
+	cd DataStruct/Stack/go && go test -cover
+
 clean:
 	rm build/*
