@@ -4,7 +4,7 @@
 
 package stack
 
-// Stack struct provides stack semantics daya structure,
+// Stack struct provides stack semantics data structure,
 // with O(1) push/pop/peek/isempty operations
 type Stack struct {
 	top *stackNode
