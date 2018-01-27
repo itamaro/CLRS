@@ -20,5 +20,8 @@ hashmap-go:
 stack-go:
 	cd DataStruct/Stack/go && go test -cover
 
+queue-go:
+	cd DataStruct/Queue/go && go test -cover
+
 clean:
 	rm build/*
