@@ -23,5 +23,8 @@ stack-go:
 queue-go:
 	cd DataStruct/Queue/go && go test -cover
 
+sort-go:
+	cd Algorithms/Sort/go && go test -cover
+
 clean:
 	rm build/*
