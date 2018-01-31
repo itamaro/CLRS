@@ -62,3 +62,68 @@ func merge(slice []int, q int) {
     }
   }
 }
+
+// Sort the given `slice` in-place (non-decreasing order) using the merge sort algorithm and
+// take advantage of goroutines  with channels for recursive calls on partial slices in parallel
+// Runs in O(NlgN) time with O(N) memory
+func ChanMergeSort(slice []int) {
+  c := make(chan int, len(slice))
+  chanMergeSortHelper(slice, c)
+  sorted := make([]int, len(slice))
+  i := 0
+  for n := range c {
+    sorted[i] = n
+    i++
+  }
+  copy(slice, sorted)
+}
+
+func chanMergeSortHelper(slice []int, up chan int) {
+  if len(slice) > 1 {
+    q := (len(slice) + 1) / 2
+    left, right := make(chan int), make(chan int)
+    go chanMergeSortHelper(slice[:q], left)
+    go chanMergeSortHelper(slice[q:], right)
+    chanMerge(up, left, right)
+  } else {
+    for _, n := range slice {
+      up <- n
+    }
+  }
+  close(up)
+}
+
+func chanMerge(up, left, right chan int) {
+  leftVal, leftOk := <-left
+  rightVal, rightOk := <-right
+  for {
+    switch {
+    case leftOk && rightOk:
+      if leftVal < rightVal {
+        up <- leftVal
+        leftVal, leftOk = <-left
+      } else {
+        up <- rightVal
+        rightVal, rightOk = <-right
+      }
+
+    case !leftOk && rightOk:
+      up <- rightVal
+      for n := range right {
+        up <- n
+      }
+      return
+
+    case leftOk && !rightOk:
+      up <- leftVal
+      for n := range left {
+        up <- n
+      }
+      return
+
+    case !leftOk && !rightOk:
+      return
+
+    }
+  }
+}
