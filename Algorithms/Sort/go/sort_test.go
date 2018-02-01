@@ -3,6 +3,7 @@
 package sort
 
 import (
+    "math/rand"
     "reflect"
     "testing"
 )
@@ -97,5 +98,29 @@ func TestChanMergeSort(t *testing.T) {
     if !reflect.DeepEqual(arr, sorted) {
       t.Errorf("Expected sorted array, got %v", arr)
     }
+  }
+}
+
+const BENCH_N int = 10000
+
+func BenchmarkInsertionSort(b *testing.B) {
+  for i := 0; i < b.N; i++ {
+    // don't account for the creation of a random permutation
+    b.StopTimer()
+    slice := rand.Perm(BENCH_N)
+    b.StartTimer()
+    // measure just the sort
+    InsertionSort(slice)
+  }
+}
+
+func BenchmarkMergeSort(b *testing.B) {
+  for i := 0; i < b.N; i++ {
+    // don't account for the creation of a random permutation
+    b.StopTimer()
+    slice := rand.Perm(BENCH_N)
+    b.StartTimer()
+    // measure just the sort
+    MergeSort(slice)
   }
 }
