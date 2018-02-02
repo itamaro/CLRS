@@ -124,3 +124,25 @@ func BenchmarkMergeSort(b *testing.B) {
     MergeSort(slice)
   }
 }
+
+func BenchmarkGoMergeSort(b *testing.B) {
+  for i := 0; i < b.N; i++ {
+    // don't account for the creation of a random permutation
+    b.StopTimer()
+    slice := rand.Perm(BENCH_N)
+    b.StartTimer()
+    // measure just the sort
+    GoMergeSort(slice)
+  }
+}
+
+func BenchmarkChanMergeSort(b *testing.B) {
+  for i := 0; i < b.N; i++ {
+    // don't account for the creation of a random permutation
+    b.StopTimer()
+    slice := rand.Perm(BENCH_N)
+    b.StartTimer()
+    // measure just the sort
+    ChanMergeSort(slice)
+  }
+}
