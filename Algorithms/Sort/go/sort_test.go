@@ -5,6 +5,7 @@ package sort
 import (
     "math/rand"
     "reflect"
+    "sort"
     "testing"
 )
 
@@ -144,5 +145,18 @@ func BenchmarkChanMergeSort(b *testing.B) {
     b.StartTimer()
     // measure just the sort
     ChanMergeSort(slice)
+  }
+}
+
+func BenchmarkLibSort(b *testing.B) {
+  for i := 0; i < b.N; i++ {
+    // don't account for the creation of a random permutation
+    b.StopTimer()
+    slice := rand.Perm(BENCH_N)
+    b.StartTimer()
+    // measure just the sort
+    sort.Slice(slice, func (i, j int) bool {
+        return slice[i] < slice[j]
+    })
   }
 }
