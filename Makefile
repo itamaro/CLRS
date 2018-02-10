@@ -26,5 +26,8 @@ queue-go:
 sort-go:
 	cd Algorithms/Sort/go && go test -cover
 
+bench-sort-go:
+	cd Algorithms/Sort/go && go test -bench .
+
 clean:
 	rm build/*
