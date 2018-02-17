@@ -32,5 +32,8 @@ sort-go:
 bench-sort-go:
 	cd Algorithms/Sort/go && go test -bench .
 
+hanoi-go:
+	cd Algorithms/HanoiTowers/go && go run hanoitowers.go
+
 clean:
 	rm build/*
