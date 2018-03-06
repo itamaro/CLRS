@@ -102,6 +102,28 @@ func TestChanMergeSort(t *testing.T) {
   }
 }
 
+func TestQuickSort(t *testing.T) {
+  cases := []testSpec{
+      testSpec{[]int{0, 5, 6, 1, 9, 2, 0, 3, 5, 4, 7, 6},
+               []int{0, 0, 1, 2, 3, 4, 5, 5, 6, 6, 7, 9}},
+      testSpec{[]int{1, 2, 3},
+               []int{1, 2, 3}},
+      testSpec{[]int{},
+               []int{}},
+      testSpec{[]int{1, 1, 1},
+               []int{1, 1, 1}},
+      testSpec{[]int{5, 4, 3, 2, 1},
+               []int{1, 2, 3, 4, 5}},
+  }
+  for _, testCase := range cases {
+    arr, sorted := testCase.arr, testCase.sorted
+    QuickSort(arr)
+    if !reflect.DeepEqual(arr, sorted) {
+      t.Errorf("Expected sorted array, got %v", arr)
+    }
+  }
+}
+
 const BENCH_N int = 10000
 
 func BenchmarkInsertionSort(b *testing.B) {
@@ -145,6 +167,17 @@ func BenchmarkChanMergeSort(b *testing.B) {
     b.StartTimer()
     // measure just the sort
     ChanMergeSort(slice)
+  }
+}
+
+func BenchmarkQuickSort(b *testing.B) {
+  for i := 0; i < b.N; i++ {
+    // don't account for the creation of a random permutation
+    b.StopTimer()
+    slice := rand.Perm(BENCH_N)
+    b.StartTimer()
+    // measure just the sort
+    QuickSort(slice)
   }
 }
 
