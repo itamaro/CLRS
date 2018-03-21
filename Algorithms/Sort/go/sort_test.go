@@ -14,20 +14,21 @@ type testSpec struct {
   sorted []int
 }
 
+var TEST_CASES = [...]testSpec{
+    testSpec{[]int{0, 5, 6, 1, 9, 2, 0, 3, 5, 4, 7, 6},
+             []int{0, 0, 1, 2, 3, 4, 5, 5, 6, 6, 7, 9}},
+    testSpec{[]int{1, 2, 3},
+             []int{1, 2, 3}},
+    testSpec{[]int{},
+             []int{}},
+    testSpec{[]int{1, 1, 1},
+             []int{1, 1, 1}},
+    testSpec{[]int{5, 4, 3, 2, 1},
+             []int{1, 2, 3, 4, 5}},
+}
+
 func TestInsertionSort(t *testing.T) {
-  cases := []testSpec{
-      testSpec{[]int{0, 5, 6, 1, 9, 2, 0, 3, 5, 4, 7, 6},
-               []int{0, 0, 1, 2, 3, 4, 5, 5, 6, 6, 7, 9}},
-      testSpec{[]int{1, 2, 3},
-               []int{1, 2, 3}},
-      testSpec{[]int{},
-               []int{}},
-      testSpec{[]int{1, 1, 1},
-               []int{1, 1, 1}},
-      testSpec{[]int{5, 4, 3, 2, 1},
-               []int{1, 2, 3, 4, 5}},
-  }
-  for _, testCase := range cases {
+  for _, testCase := range TEST_CASES {
     arr, sorted := testCase.arr, testCase.sorted
     InsertionSort(arr)
     if !reflect.DeepEqual(arr, sorted) {
@@ -37,19 +38,7 @@ func TestInsertionSort(t *testing.T) {
 }
 
 func TestMergeSort(t *testing.T) {
-  cases := []testSpec{
-      testSpec{[]int{0, 5, 6, 1, 9, 2, 0, 3, 5, 4, 7, 6},
-               []int{0, 0, 1, 2, 3, 4, 5, 5, 6, 6, 7, 9}},
-      testSpec{[]int{1, 2, 3},
-               []int{1, 2, 3}},
-      testSpec{[]int{},
-               []int{}},
-      testSpec{[]int{1, 1, 1},
-               []int{1, 1, 1}},
-      testSpec{[]int{5, 4, 3, 2, 1},
-               []int{1, 2, 3, 4, 5}},
-  }
-  for _, testCase := range cases {
+  for _, testCase := range TEST_CASES {
     arr, sorted := testCase.arr, testCase.sorted
     MergeSort(arr)
     if !reflect.DeepEqual(arr, sorted) {
@@ -59,19 +48,7 @@ func TestMergeSort(t *testing.T) {
 }
 
 func TestGoMergeSort(t *testing.T) {
-  cases := []testSpec{
-      testSpec{[]int{0, 5, 6, 1, 9, 2, 0, 3, 5, 4, 7, 6},
-               []int{0, 0, 1, 2, 3, 4, 5, 5, 6, 6, 7, 9}},
-      testSpec{[]int{1, 2, 3},
-               []int{1, 2, 3}},
-      testSpec{[]int{},
-               []int{}},
-      testSpec{[]int{1, 1, 1},
-               []int{1, 1, 1}},
-      testSpec{[]int{5, 4, 3, 2, 1},
-               []int{1, 2, 3, 4, 5}},
-  }
-  for _, testCase := range cases {
+  for _, testCase := range TEST_CASES {
     arr, sorted := testCase.arr, testCase.sorted
     GoMergeSort(arr)
     if !reflect.DeepEqual(arr, sorted) {
@@ -81,19 +58,7 @@ func TestGoMergeSort(t *testing.T) {
 }
 
 func TestChanMergeSort(t *testing.T) {
-  cases := []testSpec{
-      testSpec{[]int{0, 5, 6, 1, 9, 2, 0, 3, 5, 4, 7, 6},
-               []int{0, 0, 1, 2, 3, 4, 5, 5, 6, 6, 7, 9}},
-      testSpec{[]int{1, 2, 3},
-               []int{1, 2, 3}},
-      testSpec{[]int{},
-               []int{}},
-      testSpec{[]int{1, 1, 1},
-               []int{1, 1, 1}},
-      testSpec{[]int{5, 4, 3, 2, 1},
-               []int{1, 2, 3, 4, 5}},
-  }
-  for _, testCase := range cases {
+  for _, testCase := range TEST_CASES {
     arr, sorted := testCase.arr, testCase.sorted
     ChanMergeSort(arr)
     if !reflect.DeepEqual(arr, sorted) {
@@ -103,19 +68,7 @@ func TestChanMergeSort(t *testing.T) {
 }
 
 func TestQuickSort(t *testing.T) {
-  cases := []testSpec{
-      testSpec{[]int{0, 5, 6, 1, 9, 2, 0, 3, 5, 4, 7, 6},
-               []int{0, 0, 1, 2, 3, 4, 5, 5, 6, 6, 7, 9}},
-      testSpec{[]int{1, 2, 3},
-               []int{1, 2, 3}},
-      testSpec{[]int{},
-               []int{}},
-      testSpec{[]int{1, 1, 1},
-               []int{1, 1, 1}},
-      testSpec{[]int{5, 4, 3, 2, 1},
-               []int{1, 2, 3, 4, 5}},
-  }
-  for _, testCase := range cases {
+  for _, testCase := range TEST_CASES {
     arr, sorted := testCase.arr, testCase.sorted
     QuickSort(arr)
     if !reflect.DeepEqual(arr, sorted) {
