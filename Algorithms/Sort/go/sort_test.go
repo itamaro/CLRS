@@ -21,6 +21,8 @@ var TEST_CASES = [...]testSpec{
              []int{1, 2, 3}},
     testSpec{[]int{},
              []int{}},
+    testSpec{[]int{-100},
+             []int{-100}},
     testSpec{[]int{1, 1, 1},
              []int{1, 1, 1}},
     testSpec{[]int{5, 4, 3, 2, 1},
