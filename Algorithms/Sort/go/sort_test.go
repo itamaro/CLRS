@@ -49,6 +49,16 @@ func TestBubbleSort(t *testing.T) {
   }
 }
 
+func TestSelectionSort(t *testing.T) {
+  for _, testCase := range TEST_CASES {
+    arr, sorted := testCase.arr, testCase.sorted
+    SelectionSort(arr)
+    if !reflect.DeepEqual(arr, sorted) {
+      t.Errorf("Expected sorted array, got %v", arr)
+    }
+  }
+}
+
 func TestMergeSort(t *testing.T) {
   for _, testCase := range TEST_CASES {
     arr, sorted := testCase.arr, testCase.sorted
@@ -110,6 +120,17 @@ func BenchmarkBubbleSort(b *testing.B) {
     b.StartTimer()
     // measure just the sort
     BubbleSort(slice)
+  }
+}
+
+func BenchmarkSelectionSort(b *testing.B) {
+  for i := 0; i < b.N; i++ {
+    // don't account for the creation of a random permutation
+    b.StopTimer()
+    slice := rand.Perm(BENCH_N)
+    b.StartTimer()
+    // measure just the sort
+    SelectionSort(slice)
   }
 }
 
