@@ -2,6 +2,8 @@
 
 """My Red/Black tree implementation (educational purposes)"""
 
+from colorama import Fore, Style
+
 
 class TreeNode:
   """Single tree node"""
@@ -90,3 +92,29 @@ class RedBlackTree:
        the RB invariants.
     """
     pass  # TODO implement
+
+
+def print_tree(t):
+  """Print a ASCII art representation of the binary tree `t`."""
+  if t is None or t.root is None or t.root == t.nil_node:
+    return
+  d = t.height()
+  blocks = [[''] * (1 + 4 * (d - 1)) for _ in range(1 + 2 * (d - 1))]
+
+  def fill_level(t, node, level, offset):
+    """Recursively fill in subtree rooted at `node` in the blocks matrix."""
+    if node is None or node == t.nil_node:
+      return
+    blocks[level][offset] = (f'{Fore.YELLOW if node.is_black else Fore.RED}'
+                             f'{node.val}{Style.RESET_ALL}')
+    if node.left and node.left != t.nil_node:
+      blocks[level + 1][offset - 1] = '/'
+      fill_level(t, node.left, level + 2, offset - 2)
+    if node.right and node.right != t.nil_node:
+      blocks[level + 1][offset + 1] = '\\'
+      fill_level(t, node.right, level + 2, offset + 2)
+
+  fill_level(t, t.root, 0, 2 * (d - 1))
+  # print the ASCII tree built in matrix
+  for block in blocks:
+    print(''.join(entry.center(3) for entry in block))
