@@ -80,6 +80,46 @@ class RedBlackTree:
     self._insert_repair(new_node)
     return new_node
 
+  def check_rb_invariants(self):
+    """Return True is the RB invariants hold, False otherwise.
+
+    Also prints the invalid invariants that are found.
+    """
+
+    def red_nodes_have_black_children(node):
+      """Return True if all red nodes only black children, False otherwise."""
+      if node == self.nil_node:
+        return True
+      if node.is_red:
+        if node.left.is_red or node.right.is_red:
+          print(f'{Fore.RED}Red node {node.val} has red child!{Style.RESET_ALL}')
+          return False
+      return (red_nodes_have_black_children(node.left) and
+              red_nodes_have_black_children(node.right))
+
+    def uniform_black_height(node):
+      """Return the black height of all paths from `node` to all leaves.
+
+      If not all paths has the same black-height, return -1.
+      """
+      if node == self.nil_node:
+        return 0
+      left_black_height = uniform_black_height(node.left)
+      if left_black_height == -1:
+        return -1
+      right_black_height = uniform_black_height(node.right)
+      if right_black_height == -1:
+        return -1
+      if left_black_height != right_black_height:
+        print(f'{Fore.RED}Node {node.val} has left black height {left_black_height} '
+              f'!= right black height {right_black_height}!{Style.RESET_ALL}')
+        return -1
+      return left_black_height + (1 if node.is_black else 0)
+
+    return (self.root.is_black and
+            red_nodes_have_black_children(self.root) and
+            uniform_black_height(self.root) > 0)
+
   def _height_recursive(self, n):
     """Recursively find the height of subtree rooted at node `n`."""
     if n == self.nil_node:
