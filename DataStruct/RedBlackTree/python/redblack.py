@@ -1,6 +1,6 @@
 # Copyright 2018 Itamar Ostricher
 
-"""My Red/Black tree implementation (educational purposes)"""
+"""My Red/Black Tree implementation (educational purposes)"""
 
 from colorama import Fore, Style
 
@@ -66,7 +66,7 @@ class RedBlackTree:
       p = n
       n = n.left if val <= n.val else n.right
     if p is None:
-      # inserting root
+      # inserting root (AKA "case 1")
       new_node = TreeNode(val, None, True, self.nil_node, self.nil_node)
       self.root = new_node
     else:
@@ -131,7 +131,81 @@ class RedBlackTree:
     """Make color adjustments and rotations after an insert to preserve
        the RB invariants.
     """
-    pass  # TODO implement
+    parent = node.parent
+    if parent is None:
+      # repairing root - just need to set it to black
+      node.black = True
+      return
+    if parent.is_black:
+      # insert case 2 - nothing to do, all is well
+      return
+    # parent is red, so it's not root, so the grandparent exists
+    grandparent = parent.parent
+    uncle = grandparent.left if parent == grandparent.right else grandparent.right
+    # note - uncle could be a nil_node (which is black)
+    if uncle.is_red:
+      # insert case 3 - parent & uncle are red, grandparent must be black
+      # recolor parent and uncle to black, and grandparent to red
+      parent.black = True
+      uncle.black = True
+      grandparent.black = False
+      # recursively repair grandparent
+      self._insert_repair(grandparent)
+    else:
+      # insert case 4 - parent is red, uncle is black, grandparent must be black
+      # first, if the node is "on the inside subtree", need to rotate with its
+      # parent so the node becomes the parent and the parent becomes the child
+      # "on the outside subtree" - since both the node and the parent are red,
+      # this doesn't change any black heights, but also doesn't resolve the issue
+      # of having a red node as a child of another red node
+      if node == grandparent.left.right:
+        # left rotation
+        grandparent.left = node
+        parent.right = node.left
+        if node.left != self.nil_node:
+          node.left.parent = parent
+        parent.parent = node
+        node.parent = grandparent
+        node.left = parent
+        node, parent = parent, node
+      elif node == grandparent.right.left:
+        # right rotation
+        grandparent.right = node
+        parent.left = node.right
+        if node.right != self.nil_node:
+          node.right.parent = parent
+        parent.parent = node
+        node.parent = grandparent
+        node.right = parent
+        node, parent = parent, node
+      # now the node is "on the outside subtree", so all that's left is
+      # a simple rotation and recoloring of the parent & grandparent
+      if node == parent.left:
+        # right rotation on grandparent
+        grandparent.left = parent.right
+        if parent.right != self.nil_node:
+          parent.right.parent = grandparent
+        parent.right = grandparent
+      else:
+        # left rotation on grandparent
+        grandparent.right = parent.left
+        if parent.left != self.nil_node:
+          parent.left.parent = grandparent
+        parent.left = grandparent
+      # common parent updates
+      parent.parent = grandparent.parent
+      grandparent.parent = parent
+      greatgrandparent = parent.parent
+      if greatgrandparent is None:
+        self.root = parent
+      else:
+        if greatgrandparent.left == grandparent:
+          greatgrandparent.left = parent
+        else:
+          greatgrandparent.right = parent
+      # recoloring
+      parent.black = True
+      grandparent.black = False
 
 
 def print_tree(t):
