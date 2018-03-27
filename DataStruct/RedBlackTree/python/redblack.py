@@ -139,7 +139,7 @@ def print_tree(t):
   if t is None or t.root is None or t.root == t.nil_node:
     return
   d = t.height()
-  blocks = [[''] * (1 + 4 * (d - 1)) for _ in range(1 + 2 * (d - 1))]
+  blocks = [[''] * (2**d - 1) for _ in range(1 + 2 * (d - 1))]
 
   def fill_level(t, node, level, offset):
     """Recursively fill in subtree rooted at `node` in the blocks matrix."""
@@ -147,14 +147,15 @@ def print_tree(t):
       return
     blocks[level][offset] = (f'{Fore.YELLOW if node.is_black else Fore.RED}'
                              f'{node.val}{Style.RESET_ALL}')
+    delta = 2 ** (d - level // 2 - 2)
     if node.left and node.left != t.nil_node:
       blocks[level + 1][offset - 1] = '/'
-      fill_level(t, node.left, level + 2, offset - 2)
+      fill_level(t, node.left, level + 2, offset - delta)
     if node.right and node.right != t.nil_node:
       blocks[level + 1][offset + 1] = '\\'
-      fill_level(t, node.right, level + 2, offset + 2)
+      fill_level(t, node.right, level + 2, offset + delta)
 
-  fill_level(t, t.root, 0, 2 * (d - 1))
+  fill_level(t, t.root, 0, 2**(d-1) - 1)
   # print the ASCII tree built in matrix
   for block in blocks:
     print(''.join(entry.center(3) for entry in block))
