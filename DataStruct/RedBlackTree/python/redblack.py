@@ -128,9 +128,7 @@ class RedBlackTree:
                    self._height_recursive(n.right))
 
   def _insert_repair(self, node):
-    """Make color adjustments and rotations after an insert to preserve
-       the RB invariants.
-    """
+    """Make color adjustments and rotations after an insert to preserve the RB invariants."""
     parent = node.parent
     if parent is None:
       # repairing root - just need to set it to black
