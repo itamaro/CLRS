@@ -57,3 +57,14 @@ def test_insertion_repairs():
   # subtree followed by left rotation of grandparent, including root update
   t.insert(30)
   assert t.check_rb_invariants()
+
+
+def test_large_tree():
+  t = RedBlackTree()
+  # insert ~million random nodes, making sure RB invariants hold,
+  # and the height is within the RB boundaries (up to twice optimal height)
+  d = 20
+  for _ in range(2**d):
+    t.insert(randint(0, 999999999))
+  assert t.check_rb_invariants()
+  assert d <= t.height() <= 2 * d
