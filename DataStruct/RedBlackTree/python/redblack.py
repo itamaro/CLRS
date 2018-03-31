@@ -80,6 +80,13 @@ class RedBlackTree:
     self._insert_repair(new_node)
     return new_node
 
+  def remove(self, node):
+    """Remove `node` from the tree, rebalancing the tree if needed.
+
+    Runtime: O(h) = O(logN)
+    """
+    raise NotImplemented('remove')
+
   def check_rb_invariants(self):
     """Return True is the RB invariants hold, False otherwise.
 
